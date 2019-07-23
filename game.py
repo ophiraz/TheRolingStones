@@ -3,7 +3,7 @@ import random
 
 BACKROUND = (123, 189, 189)
 LEANGTH = 500
-MAX_ROCKS = 13
+MAX_ROCKS = 10
 PLAYER_SIZE = 25
 ROCK_WIDTH = 30
 ROCK_HIGHT = 30
@@ -79,7 +79,7 @@ def main():
             this_rock = rock()
             this_rock.x = getRandomX()
             this_rock.SIZE = getRandomRockSize()
-            this_rock.pase = this_rock.SIZE / 20
+            this_rock.pase = MAX_ROCK_SIZE / this_rock.SIZE
             print(this_rock.pase)
             rocks.append(this_rock)
 
