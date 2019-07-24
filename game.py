@@ -12,7 +12,7 @@ APPLE_SIZE = 20
 MAX_APPLE = 1
 COLOR_APPLE_1 = (0,0,0)
 APLLE_RANGE = 5
-
+START_MESAGE_COLOR = (255, 128, 64)
 
 def getRandomRockSize():
     return random.randint(MINIMUM_ROCK_SIZE, MAX_ROCK_SIZE)
@@ -85,21 +85,16 @@ class player:
     color = (70, 20, 10)
 
 
-
-
-def main():
-    pygame.init()
-    myfont = pygame.font.SysFont("monospace", 20)
+def play(win, backround):
+    myfont = pygame.font.SysFont("monospace", 16)
     scoreRate = 1
     score = 0
     shipImage = pygame.image.load('pictues/battleShip2.png')
     appleImage = pygame.image.load('pictues/apple.png')
-    backround = pygame.image.load('pictues/backround.jpg')
-    backround = pygame.transform.scale(backround, (WIDTH, HIGHT))
     #startMenue()
     player1 = player()
-    win = pygame.display.set_mode((WIDTH, HIGHT))
-    pygame.display.set_caption("TheRolingStones...")
+
+    pygame.display.set_caption("Save The Astronauts...")
     rocks = []
     apples = []
     run = True
@@ -161,11 +156,45 @@ def main():
         pygame.display.update()
         if(isDead(player1, rocks)):
             run = False
+            myfont = pygame.font.SysFont("monospace", 65)
+            win.blit(backround, (0,0))
+            scoretext = myfont.render("Game Over...", 1, (255,0,0))
+            win.blit(scoretext, (300, 100))
+            scoretext = myfont.render("Your score: {0}".format(score), 1, (255,255,255))
+            win.blit(scoretext, (200, 300))
+            pygame.display.update()
+
+def Intro(win, backround):
+    largeFont = pygame.font.SysFont("reesansbold.ttf" ,75)
+    while True:
+        pygame.time.delay(15)
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            print(event)
+            if event.type == pygame.QUIT:
+                return False
+            if keys[pygame.K_RIGHT]:
+                return True
+
+        win.blit(backround, (0,0))
+        Text = largeFont.render("Welcome to 'Save The Astronaunts'", 1, (START_MESAGE_COLOR))
+        win.blit(Text, (WIDTH/10, HIGHT/7))
+        Text = largeFont.render("The Game...", 1, START_MESAGE_COLOR)
+        win.blit(Text, (WIDTH/7, HIGHT/4))
+        pygame.display.update()
 
 
+def main():
+    pygame.init()
+    backround = pygame.image.load('pictues/backround.jpg')
+    backround = pygame.transform.scale(backround, (WIDTH, HIGHT))
+    win = pygame.display.set_mode((WIDTH, HIGHT))
+    if(Intro(win, backround)):
+        play_again = True
+        while play_again:
+            play_again = play(win, backround)
+    input()
     pygame.quit()
-
-
 if __name__ == "__main__":
     main()
 
